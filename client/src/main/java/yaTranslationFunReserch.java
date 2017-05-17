@@ -5,10 +5,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.StringTokenizer;
+import java.util.*;
 import java.util.regex.Pattern;
 
 
@@ -26,11 +23,8 @@ public class yaTranslationFunReserch {
                     )
                     .map(yaTranslationFunReserch::translate)
                     .reduce((s1, s2) -> {
-                        List<String> list = new ArrayList<>();
-                        list.add(s1.toString());
-                        list.add(s2.toString());
-                        return list;
-
+                        s1.addAll(s2);
+                        return s1;
                     }));
         } catch (IOException e) {
             System.out.println("что-то пошло не так :(");
@@ -59,14 +53,11 @@ public class yaTranslationFunReserch {
                     e.printStackTrace();
                 }
                 lines.add(stringBuilder.toString());
-                stringBuilder.delete(0, stringBuilder.length() + 1);
+                stringBuilder = new StringBuilder();
 
             }
-
-
         }
         return lines;
-
     }
 
 
