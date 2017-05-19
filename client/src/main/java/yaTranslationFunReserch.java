@@ -36,7 +36,7 @@ public class yaTranslationFunReserch {
 
     }
 
-    public static List<String> translate(String inLine) {
+    static List<String> translate(String inLine) {
         List<String> lines = new ArrayList<>();
         List<String> translatedLines = new ArrayList<>();
         StringTokenizer tokenizer = new StringTokenizer(inLine, ".", true);
@@ -83,14 +83,23 @@ public class yaTranslationFunReserch {
     }
 
 
-    public static void writeToFile(Optional<List<String>> outLine) {
+    static void writeToFile(Optional<List<String>> outLine) {
 
+        StringBuilder stringBuilder = new StringBuilder();
+
+        ArrayList<String> result = new ArrayList<>();
+        outLine.ifPresent(result::addAll);
+
+        for (String s : result) {
+
+            stringBuilder.append(s + System.getProperty("line.separator"));
+
+        }
 
         try {
 
             FileWriter fileWriter = new FileWriter("d:/out.txt", true);
-            fileWriter.write(outLine + System.getProperty("line.separator"));
-
+            fileWriter.write(stringBuilder.toString() + System.getProperty("line.separator") + "\n");
 
             fileWriter.close();
         } catch (IOException e) {
@@ -98,6 +107,4 @@ public class yaTranslationFunReserch {
         }
 
     }
-
-
 }
