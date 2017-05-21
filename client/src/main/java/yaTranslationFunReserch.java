@@ -4,6 +4,7 @@ import com.rmtheis.yandtran.translate.Translate;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,21 +19,7 @@ public class yaTranslationFunReserch {
 
 
     public static void main(String[] args) {
-        Translate.setKey("trnsl.1.1.20170508T204041Z.28e80bf4ecfc6070.2c53fb29fe2e03715d5f594d7ea8ec10534faca7");
-        try {
-
-            writeToFile(
-                    Files.readAllLines(Paths.get("d:/in.txt")).stream()
-                            .map(s -> s.replaceAll(TEXT_SPLIT_PATTERN.toString(), ". "))
-                            .map(yaTranslationFunReserch::translate)
-                            .reduce((s1, s2) -> {
-                                s1.addAll(s2);
-                                return s1;
-                            }));
-        } catch (IOException e) {
-            System.out.println("что-то пошло не так :(");
-            e.printStackTrace();
-        }
+      translation(Paths.get("C:\\yaTranslation-master\\resources\\in.txt"));
 
     }
 
@@ -66,7 +53,7 @@ public class yaTranslationFunReserch {
 
 
         try {
-            for (int count = 0; count < 10; count++) {
+            for (int count = 0; count < 1; count++) {
                 stringBuilder.replace(0, stringBuilder.length(), Translate.execute(stringBuilder.toString(), Language.RUSSIAN, Language.ENGLISH));
                 stringBuilder.replace(0, stringBuilder.length(), Translate.execute(stringBuilder.toString(), Language.ENGLISH, Language.RUSSIAN));
 
@@ -98,7 +85,7 @@ public class yaTranslationFunReserch {
 
         try {
 
-            FileWriter fileWriter = new FileWriter("d:/out.txt", true);
+            FileWriter fileWriter = new FileWriter("C:\\yaTranslation-master\\resources\\out.txt", true);
             fileWriter.write(stringBuilder.toString() + System.getProperty("line.separator") + "\n");
 
             fileWriter.close();
@@ -107,4 +94,24 @@ public class yaTranslationFunReserch {
         }
 
     }
+
+    public static void translation(Path path) {
+        Translate.setKey("trnsl.1.1.20170508T204041Z.28e80bf4ecfc6070.2c53fb29fe2e03715d5f594d7ea8ec10534faca7");
+        try {
+
+            writeToFile(
+                    Files.readAllLines(path).stream()
+                            .map(s -> s.replaceAll(TEXT_SPLIT_PATTERN.toString(), ". "))
+                            .map(yaTranslationFunReserch::translate)
+                            .reduce((s1, s2) -> {
+                                s1.addAll(s2);
+                                return s1;
+                            }));
+        } catch (IOException e) {
+            System.out.println("что-то пошло не так :(");
+            e.printStackTrace();
+        }
+
+    }
+
 }
